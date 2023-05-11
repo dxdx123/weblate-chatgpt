@@ -12,6 +12,7 @@ class ChatGPTTranslation(MachineTranslation):
     settings_form = ChatGPTSettingsForm
     # This addon can be installed multiple times per component
     multiple = True
+    icon = "machine"
 
     @classmethod
     def can_install(cls, component, user):
