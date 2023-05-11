@@ -4,15 +4,16 @@
 
 from .forms import ChatGPTSettingsForm
 from weblate.machinery.base import MachineTranslation, MachineTranslationError
+from requests.exceptions import RequestException
 
 
 class ChatGPTTranslation(MachineTranslation):
     # This addon can be installed multiple times per component
-    #multiple = True
-    #icon = "language.svg"
+    # multiple = True
+    # icon = "language.svg"
 
-    #@classmethod
-    #def can_install(cls, component, user):
+    # @classmethod
+    # def can_install(cls, component, user):
     #    return True
 
     name = "ChatGPT"
@@ -63,3 +64,13 @@ class ChatGPTTranslation(MachineTranslation):
             "service": self.name,
             "source": text,
         }
+
+    def get_error_message(self, exc):
+        if isinstance(exc, RequestException) and exc.response is not None:
+            data = exc.response.json()
+            try:
+                return data["error"]["message"]
+            except KeyError:
+                pass
+
+        return super().get_error_message(exc)
