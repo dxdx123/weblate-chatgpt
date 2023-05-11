@@ -11,6 +11,10 @@ class ChatGPTTranslation(MachineTranslation):
     max_score = 100
     settings_form = ChatGPTSettingsForm
 
+    @classmethod
+    def can_install(cls, component, user):
+        return True
+
     def download_languages(self):
         """List of supported languages."""
         # Replace the following list with the actual list of supported languages by ChatGPT
