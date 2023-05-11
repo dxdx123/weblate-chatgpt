@@ -2,21 +2,22 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.conf import settings
 from .forms import ChatGPTSettingsForm
 from weblate.machinery.base import MachineTranslation, MachineTranslationError
 
+
 class ChatGPTTranslation(MachineTranslation):
+    # This addon can be installed multiple times per component
+    #multiple = True
+    #icon = "language.svg"
+
+    #@classmethod
+    #def can_install(cls, component, user):
+    #    return True
+
     name = "ChatGPT"
     max_score = 100
     settings_form = ChatGPTSettingsForm
-    # This addon can be installed multiple times per component
-    multiple = True
-    icon = "language.svg"
-
-    @classmethod
-    def can_install(cls, component, user):
-        return True
 
     def download_languages(self):
         """List of supported languages."""
@@ -24,7 +25,14 @@ class ChatGPTTranslation(MachineTranslation):
         return ["en", "fr", "de", "es", "zh"]
 
     def download_translations(
-        self, source, language, text, unit, user, threshold=75
+            self,
+            source,
+            language,
+            text,
+            unit,
+            user,
+            search: bool,
+            threshold=75
     ):
         """Download list of possible translations from a service."""
         import openai
@@ -55,4 +63,3 @@ class ChatGPTTranslation(MachineTranslation):
             "service": self.name,
             "source": text,
         }
-

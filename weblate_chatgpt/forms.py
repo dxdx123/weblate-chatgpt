@@ -5,6 +5,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+
 class ChatGPTSettingsForm(forms.Form):
     api_key = forms.CharField(
         label=_("API Key"),
@@ -20,6 +21,7 @@ class ChatGPTSettingsForm(forms.Form):
         initial=0.8
     )
 
+
 def clean(self):
     cleaned_data = super().clean()
 
@@ -33,4 +35,3 @@ def clean(self):
         self.add_error("temperature", _("Temperature is required."))
 
     return cleaned_data
-
