@@ -7,11 +7,11 @@
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.events import EVENT_PRE_COMMIT
-from weblate.addons.scripts import BaseScriptAddon
+from weblate.addons.base import BaseAddon
 from .forms import HoldOnSettingsForm
 
 
-class HoldOnAddon(BaseScriptAddon):
+class HoldOnAddon(BaseAddon):
     settings_form = HoldOnSettingsForm
 
     # This addon can be installed multiple times per component
