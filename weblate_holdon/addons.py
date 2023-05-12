@@ -11,7 +11,7 @@ from weblate.addons.scripts import BaseScriptAddon
 from .forms import HoldOnSettingsForm
 
 
-class ExamplePreAddon(BaseScriptAddon):
+class HoldOnAddon(BaseScriptAddon):
     settings_form = HoldOnSettingsForm
 
     # This addon can be installed multiple times per component
