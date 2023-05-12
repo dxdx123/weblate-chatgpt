@@ -1,76 +1,37 @@
-# Copyright © 2023 ChatGPT Developer <developer@example.com>
+# Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .forms import ChatGPTSettingsForm
-from weblate.machinery.base import MachineTranslation, MachineTranslationError
-from requests.exceptions import RequestException
+"""Example pre commit script."""
+
+from django.utils.translation import gettext_lazy as _
+
+from weblate.addons.events import EVENT_PRE_COMMIT
+from weblate.addons.scripts import BaseScriptAddon
+from .forms import HoldOnSettingsForm
 
 
-class ChatGPTTranslation(MachineTranslation):
+class ExamplePreAddon(BaseScriptAddon):
+    settings_form = HoldOnSettingsForm
+
     # This addon can be installed multiple times per component
-    # multiple = True
-    # icon = "language.svg"
+    multiple = True
+    icon = "language.svg"
 
-    # @classmethod
-    # def can_install(cls, component, user):
-    #    return True
+    @classmethod
+    def can_install(cls, component, user):
+        return True
 
-    name = "ChatGPT"
-    max_score = 100
-    settings_form = ChatGPTSettingsForm
+    # Event used to trigger the script
+    events = (EVENT_PRE_COMMIT,)
+    # Name of the addon, has to be unique
+    name = "weblate.example.pre"
+    # Verbose name and long description
+    verbose = _("Execute script before commit")
+    description = _("This add-on executes a script.")
 
-    def download_languages(self):
-        """List of supported languages."""
-        # Replace the following list with the actual list of supported languages by ChatGPT
-        return ["en", "fr", "de", "es", "zh"]
-
-    def download_translations(
-            self,
-            source,
-            language,
-            text,
-            unit,
-            user,
-            search: bool,
-            threshold=75
-    ):
-        """Download list of possible translations from a service."""
-        import openai
-
-        openai.api_key = self.settings_form["api_key"]
-        model = "text-davinci-002"  # You can use other GPT models here
-
-        try:
-            response = openai.Completion.create(
-                engine=model,
-                prompt=text,
-                max_tokens=100,
-                n=1,
-                stop=None,
-                temperature=self.settings_form["temperature"],
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0,
-            )
-        except Exception as e:
-            raise MachineTranslationError(str(e))
-
-        translation = response.choices[0].text.strip()
-
-        yield {
-            "text": translation,
-            "quality": self.max_score,
-            "service": self.name,
-            "source": text,
-        }
-
-    def get_error_message(self, exc):
-        if isinstance(exc, RequestException) and exc.response is not None:
-            data = exc.response.json()
-            try:
-                return data["error"]["message"]
-            except KeyError:
-                pass
-
-        return super().get_error_message(exc)
+    # Script to execute
+    script = "/bin/true"
+    # File to add in commit (for pre commit event)
+    # does not have to be set
+    add_file = "po/{{ language_code }}.po"

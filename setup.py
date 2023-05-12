@@ -9,12 +9,12 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="weblate_chatgpt",
+    name="weblate_holdon",
     version="0.0.1",
     author="Your name",
     author_email="yourname@example.com",
-    description="ChatGPT plugin for Weblate",
+    description="holdOn plugin for Weblate",
     license="GPLv3+",
-    keywords="Weblate ChatGPT plugin",
-    packages=["weblate_chatgpt"],
+    keywords="Weblate holdon plugin",
+    packages=["weblate_holdon"],
 )
