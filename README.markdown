@@ -35,6 +35,9 @@
     # 克隆插件到本地
     git clone -b holdon https://github.com/dxdx123/weblate-chatgpt.git .
   
+    # 安装插件
+    pip install -e .
+  
     # 重启容器
     docker restart weblate-docker-weblate-1
     ```
@@ -44,4 +47,8 @@
 - 如果报错可以查看docker日志
   ```
   docker logs -f weblate-docker-weblate-1
+  ```
+- 如果执行 `pip install -e .` 报错，一般都是宿主机文件夹权限和weblate容器不匹配导致的。在宿主机上创建weblate账户，并给插件目录设置weblate用户权限即可。
+  ```
+  useradd -m weblate
   ```
