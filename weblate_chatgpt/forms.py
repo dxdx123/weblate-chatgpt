@@ -4,13 +4,17 @@
 
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from weblate.machinery.forms import KeyMachineryForm
 
 
-class ChatGPTSettingsForm(forms.Form):
+class ChatGPTSettingsForm(KeyMachineryForm):
     api_key = forms.CharField(
         label=_("API Key"),
-        help_text=_("ChatGPT API Key."),
-        required=True,
+        help_text=_(
+            "You can obtain your API key by signing up for an account at "
+            "https://beta.openai.com/signup/"
+        ),
+        required=False,
     )
     temperature = forms.FloatField(
         label=_("Temperature"),

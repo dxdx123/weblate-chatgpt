@@ -11,10 +11,14 @@ from setuptools import setup, find_packages
 setup(
     name="weblate_chatgpt",
     version="0.0.1",
-    author="Your name",
-    author_email="yourname@example.com",
+    author="dennis.ding",
+    author_email="303159963@qq.com",
     description="ChatGPT plugin for Weblate",
     license="GPLv3+",
     keywords="Weblate ChatGPT plugin",
-    packages=["weblate_chatgpt"],
+    packages=find_packages(),
+    install_requires=[
+        'requests',
+        'openai'
+    ],
 )
