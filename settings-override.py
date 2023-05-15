@@ -1,4 +1,4 @@
 #from weblate.
 
 
-MT_SERVICES += ('weblate_chatgpt.chatgpt_translation.ChatGPTTranslation',)
+WEBLATE_MACHINERY += ('weblate_chatgpt.chatgpt.ChatGPTTranslation',)
